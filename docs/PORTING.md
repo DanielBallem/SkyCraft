@@ -162,8 +162,8 @@ numbers) are just ids; any game can fill them.
   bumps `collisionEpoch` and resends all collision, and teleports Minecraft again (`Game.cpp`).
 - **Elevation.** If the host runs as administrator the default DACL locks Minecraft out
   (`ERROR_ACCESS_DENIED`). Build an explicit DACL for the current user at medium integrity.
-- **Scale and world height.** The mirror world uses a custom dimension type with min_y −2032,
-  height 4064. Your world (after scaling) must fit, or you need to offset it.
+- **Scale and world height.** The mirror world uses a custom dimension type with min_y −1024,
+  height 2048 (`fabric/src/main/resources/data/skycraft/dimension_type/mirror.json`). Your world (after scaling) must fit, or you need to offset it.
 - **Interiors share one world.** Minecraft has a single mirror world, so separate host levels at
   the same coordinates see each other's blocks unless the host offsets them.
 - **Windows only.** The transport uses Win32 APIs (and QPC for tick timestamps on both sides). A
@@ -201,7 +201,7 @@ Ground rules:
 - All protocol coordinates are Minecraft space (blocks, Y up, +Z south, yaw 0 = south). Choose a
   units-per-block scale so [GAME]'s player height ≈ 1.8 blocks, write SkyToMc/McToSky and
   heading<->yaw helpers, and unit-test them first. [GAME] axes: [describe: up axis, handedness,
-  units, rotation convention]. World height after scaling must fit min_y -2032 .. 2032.
+  units, rotation convention]. World height after scaling must fit y -1024 .. 1023.
 - Seqlocks: seq odd while writing, +2 per write. Rings: one producer thread, one consumer
   thread, release/acquire on head/tail, 8-byte aligned messages with a pad-to-start message.
 - Bump SkyState.seq exactly once per rendered [GAME] frame: Minecraft paces its frames on it.
